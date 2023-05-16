@@ -34,3 +34,28 @@ bit to support groupping and multi-parts in a clauses. In high level the documen
 ==== Part One
 ```
 Please check the attachment for the complete sample doc.
+
+### Run the parsing
+
+Once have the file locally available, then we can use this gem to parse the sample document to yaml.
+
+Please use `bin/console` script to try that out in a repl. The main interface for this parsing is
+`Coradoc::Oscal.parse`, but there was some issue on yaml serilization, so we also have a little
+help to do all the parsing to yaml in one place using:
+
+```ruby
+Coradoc::Oscal.parse_to_yaml("./sample-oscal.adoc")
+```
+
+Btw, if you prefere to run the whole gem in docker, then you also do the following:
+
+```sh
+# install
+make setup
+
+# pry session
+make console
+```
+
+The `parse_to_yaml` returns the yaml document, that we can write anywhere we like. Please
+also check the attached output file for current version.
