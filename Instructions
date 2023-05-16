@@ -1,0 +1,10 @@
+## Oscal - Coradoc
+
+The oscal-coradoc allows us to parse a asciidoc document to yaml. To test it out please checkout
+the current work in progress branch `oscal-coradoc` from the the following repo:
+
+### Setup
+
+```sh
+git pull https://github.com/metanorma/coradoc.git
+```
