@@ -1,25 +1,93 @@
-## Oscal - Coradoc
+= Create OSCAL output using Metanorma Coradoc
 
-The oscal-coradoc allows us to parse a asciidoc document to yaml. To test it out please checkout
-the current work in progress branch `oscal-coradoc` from the the following repo:
+== Purpose
 
-### Setup
+This repository contains an example on how Metanorma Coradoc can be used
+to author controls in a human-oriented markup language.
 
-```sh
-git pull https://github.com/metanorma/coradoc.git
-```
+== Background
 
-### Sample file
+The OSCAL catalog information model is highly structured and can be complex
+to create and manage without proper tooling.
 
-We are using the same reference document as we have for `iso27002-oscal`, but we had to adjust a
-bit to support groupping and multi-parts in a clauses. In high level the document is structrued like this
+For those who prefer a human-oriented markup format, Metanorma Coradoc
+supports creating OSCAL via AsciiDoc.
 
-```md
+This repository provides a sample control from ISO/IEC 27002:2022 that
+demonstrates the usage of the following Rubygems to author OSCAL in AsciiDoc:
+
+* https://github.com/metanorma/coradoc[`coradoc`] gem
+* https://github.com/metanorma/oscal-ruby[`oscal-ruby`] gem
+
+
+== Usage
+
+=== Setup
+
+Clone this repository.
+
+[source,sh]
+----
+git clone https://github.com/metanorma/coradoc-oscal.git
+----
+
+=== Install prerequisites
+
+[source,sh]
+----
+bundle
+----
+
+=== Generate OSCAL from AsciiDoc
+
+The following command converts an `.adoc` file into a `.yaml` (OSCAL YAML).
+
+[source,sh]
+----
+bundle exec convert.rb {asciidoc-file-name}
+----
+
+
+The file `sample.oscal.adoc` is provided in this repository for testing
+purposes. The following command converts `sample.oscal.adoc` into
+`sample.oscal.yaml`.
+
+[source,sh]
+----
+bundle exec convert.rb sample.oscal.adoc
+# => sample.oscal.yaml created
+----
+
+
+=== API usage
+
+For those who wish to use the Ruby API, it is possible to directly call
+the following method to convert their OSCAL AsciiDoc file into OSCAL in YAML.
+
+[source,ruby]
+----
+> require "coradoc"
+> Coradoc::Oscal.parse_to_yaml("sample.oscal.adoc")
+----
+
+
+
+== Contents
+
+The `sample.oscal.adoc` file is excerpted from the OSCAL version of the
+"ISO/IEC 27002:2022 Information security controls".
+
+NOTE: ISO/IEC 27002:2022 is copyrighted content.
+
+The document is structured in the following way:
+
+[source,adoc]
+----
 == Group One
 
 === Clause One
 ==== Part One
-==== Part Two 
+==== Part Two
 
 === Clause Two
 ==== Part One
@@ -28,34 +96,17 @@ bit to support groupping and multi-parts in a clauses. In high level the documen
 == Group Two
 === Clause One
 ==== Part One
-==== Part Two 
+==== Part Two
 
 === Clause Two
 ==== Part One
-```
-Please check the attachment for the complete sample doc.
+----
 
-### Run the parsing
 
-Once have the file locally available, then we can use this gem to parse the sample document to yaml.
+== License
 
-Please use `bin/console` script to try that out in a repl. The main interface for this parsing is
-`Coradoc::Oscal.parse`, but there was some issue on yaml serilization, so we also have a little
-help to do all the parsing to yaml in one place using:
+Copyright of content from the ISO/IEC 27002:2022 remain
+unchanged from its owner.
 
-```ruby
-Coradoc::Oscal.parse_to_yaml("./sample-oscal.adoc")
-```
+All other code and information, copyright Ribose.
 
-Btw, if you prefere to run the whole gem in docker, then you also do the following:
-
-```sh
-# install
-make setup
-
-# pry session
-make console
-```
-
-The `parse_to_yaml` returns the yaml document, that we can write anywhere we like. Please
-also check the attached output file for current version.
